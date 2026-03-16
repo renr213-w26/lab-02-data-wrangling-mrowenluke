@@ -14,6 +14,7 @@ format:
 #| message: false
 
 library(tidyverse)
+write_csv(midwest, "midwest.csv")
 ```
 
 
@@ -45,7 +46,8 @@ There are three counties that share names across all states. Crawford, Jackson, 
 
 ### Question 3
 
-3a.
+3a.The counties with a population density higher than 25,000. Your code must use the filter() function.
+
 ```{r}
 midwest |>
   select(county, state, popdensity, poptotal, area) |>
@@ -53,7 +55,8 @@ midwest |>
   arrange(desc(popdensity))
 ```
 
-3b.
+3b. The county with the highest population density. Your code must use the max() function.
+
 ```{r}
 midwest |>
   select(county, state, popdensity, poptotal, area) |>
@@ -62,9 +65,29 @@ midwest |>
 \newpage
 
 ### Question 4
+
+```{r}
+midwest |>
+  summarize(
+    median_density = median(popdensity),
+    q1_density = quantile(popdensity, 0.25),
+    q3_density = quantile(popdensity, 0.75)
+  )
+```
+The distribution of population density of counties is unimodal and extremely right-skewed. A typical Midwestern county has a population density of 1156 people per unit area. The middle 50% of counties have population densities between 622 and 2330 people per unit area.
+
 \newpage
 
 ### Question 5
+
+Another visualization from Lab 1 was the following that showed the proportion of urban counties in each state.Calculate the proportions in a single data pipeline.
+
+```{r}
+midwest |>
+  mutate(metro = if_else(inmetro == 1, "Yes", "No")) |>
+  group_by(state) |>
+  summarize(proportion_metro = mean(metro == "Yes"))
+```
 
 \newpage
 
