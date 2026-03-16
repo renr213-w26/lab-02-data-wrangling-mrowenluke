@@ -55,6 +55,7 @@ midwest |>
   arrange(desc(popdensity))
 ```
 
+
 3b. The county with the highest population density. Your code must use the max() function.
 
 ```{r}
@@ -62,6 +63,8 @@ midwest |>
   select(county, state, popdensity, poptotal, area) |>
   filter(popdensity == max(popdensity))
 ```
+The county with the highest population density is Cook, IL. 
+
 \newpage
 
 ### Question 4
@@ -213,3 +216,78 @@ Indiana has the lowest average percentage below poverty across its counties, at 
 
 ### Question 9
 
+```{r}
+df <- tibble(
+  var_1 = c(10, 20, 30, 40, 50),
+  var_2 = c("Pizza", "Burger", "Pizza", "Pizza", "Burger"),
+  var_3 = c("Apple", "Apple", "Pear", "Pear", "Banana")
+)
+
+df
+```
+
+9.a. What does the following code chunk do? Run it and analyze the result and articulate in words what arrange() does.
+
+```{r}
+df |>
+  arrange(var_2)
+```
+The arrange() function arranges the variable in ascending alphabetical order. 
+
+9.b. What does the following code chunk do? Run it and analyze the result and articulate in words what group_by() does. Also comment on how it’s different from the arrange() in part (a)?
+
+```{r}
+df |>
+  group_by(var_2)
+```
+
+group_by(var_2) groups the data by the values in var_2, so that future operations will be performed separately for each group. Unlike arrange(), it does not reorder the rows of the data frame; it simply adds grouping information to the dataset.
+
+9.c. What does the following code chunk do? Run it and analyze the result and articulate in words what the pipeline does.
+
+```{r}
+df |>
+  group_by(var_2) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+
+This chunk of code first groups the data by var_2 using group_by(). It then uses summarize() to calculate the mean value of var_1 within each group. As a result, the output shows the average value of var_1 for each category in var_2, producing one row per group.
+
+9.d. What does the following code chunk do? Run it and analyze the result and articulate in words what the pipeline does. Then, comment on what the message says.
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1))
+```
+
+This pipeline groups the data by both var_2 and var_3, creating groups based on each unique combination of those two variables. It then calculates the mean value of var_1 for each group using summarize(). 
+
+The message printed by R indicates that the resulting data remains grouped by var_2, meaning that the grouping structure is partially retained after the summarization.
+
+9.e. What does the following code chunk do? Run it and analyze the result and articulate in words what the pipeline does, especially mentioning what the .groups argument does. How is the output different from the one in part (d)?
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+
+This pipeline groups the data by both var_2 and var_3, and then calculates the mean value of var_1 for each group. The .groups = "drop" argument removes the grouping structure from the output frame, returning back  no remaining groups. This differs from part d, where the output remained grouped by var_2.
+
+9.f. What do the following pipelines do? Run both and analyze their results and articulate in words what each pipeline does. How are the outputs of the two pipelines different?
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  summarize(mean_var_1 = mean(var_1), .groups = "drop")
+```
+
+```{r}
+df |>
+  group_by(var_2, var_3) |>
+  mutate(mean_var_1 = mean(var_1))
+```
+
+
+The first pipeline groups the data by var_2 and var_3 and uses summarize() to calculate the mean of var_1 for each group, resulting in one row per group. The second pipeline also groups the data by var_2 and var_3, but uses mutate() to add the group mean of var_1 as a new column while keeping all original rows. Therefore, the outputs differ because summarize() reduces the number of rows while mutate() preserves the original dataset and adds additional information.
