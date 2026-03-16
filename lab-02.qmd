@@ -22,7 +22,7 @@ library(tidyverse)
 ## Part 1
 
 ### Question 1
-
+Calculate the number of counties in each state and display your results in descending order of number of counties. Which state has the highest number of counties, and how many? Which state has the lowest number, and how many?
 ```{r}
 midwest |>
   count(state, name = "n_counties") |>
@@ -32,6 +32,7 @@ Illinois has the highest number of counties, with 102. Wisconsin has the lowest 
 \newpage
 
 ### Question 2
+A classmate says “Look at that, there is a county called ___ in each state in this dataset!” In a single pipeline, discover all counties that could fill in the blank. Your response should be a data frame with only the county names that could fill in the blank and how many times they appear in the data.
 
 ```{r}
 midwest |>
@@ -44,7 +45,20 @@ There are three counties that share names across all states. Crawford, Jackson, 
 
 ### Question 3
 
+3a.
+```{r}
+midwest |>
+  select(county, state, popdensity, poptotal, area) |>
+  filter(popdensity > 25000) |>
+  arrange(desc(popdensity))
+```
 
+3b.
+```{r}
+midwest |>
+  select(county, state, popdensity, poptotal, area) |>
+  filter(popdensity == max(popdensity))
+```
 \newpage
 
 ### Question 4
