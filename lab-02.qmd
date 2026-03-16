@@ -93,13 +93,103 @@ midwest |>
 
 ### Question 6
 
+6.a. In a single pipeline, identify the observations marked in the orange square on the upper left corner. Your answer should be a data frame with four variables: county, state, percentage below poverty, and percentage college educated.
+
+```{r}
+midwest |>
+  filter(percollege < 10, percbelowpoverty > 30) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+
+6.b. In a single pipeline, identify the observations marked in the red square in the plot above. Your answer should again be a data frame with four variables: county, state, percentage below poverty, and percentage college educated.
+
+```{r}
+midwest |>
+  filter(percollege > 40, percbelowpoverty < 20) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+
+6.c. Bring your answers from part (a) and part (b) together! In a single pipeline, and a single filter() statement, identify the observations marked in the red and orange square in the plot above. Your answer should again be a data frame with four variables: county, state, percentage below poverty, and percentage college educated.
+
+```{r}
+midwest |>
+  filter(
+    (percollege < 10 & percbelowpoverty > 30) |
+    (percollege > 40 & percbelowpoverty < 20)
+  ) |>
+  select(county, state, percbelowpoverty, percollege)
+```
+
+6.d. Create a new variable in midwest called potential_outlier. This variable should take on the value:
+
+Yes if the point is one the ones you identified in part (c), i.e., one of the points marked in the squares in the plot above.
+
+No otherwise.
+
+Then, display the updated midwest data frame, with county, state, percentage below poverty, percentage college educated, potential_outlier as the selected variables, arranged in ascending order of potential_outlier.
+
+```{r}
+midwest <- midwest |>
+  mutate(
+    potential_outlier =
+      if_else(
+        (percollege < 10 & percbelowpoverty > 30) |
+        (percollege > 40 & percbelowpoverty < 20),
+        "Yes",
+        "No"
+      )
+  )
+
+midwest |>
+  select(county, state, percbelowpoverty, percollege, potential_outlier) |>
+  arrange(potential_outlier)
+```
+
+6.e. Recreate the visualization above, i.e. a scatterplot of percentage below poverty vs. percentage of people with a college degree, however color the points by the newly created potential_outlier variable instead of state.
+
+```{r}
+ggplot(midwest, aes(x = percollege, y = percbelowpoverty, color = potential_outlier)) +
+  geom_point() +
+  labs(
+    x = "Percent with college degree",
+    y = "Percent below poverty",
+    title = "Potential outlier counties based on education and poverty"
+  ) +
+  theme_minimal()
+```
+
 \newpage
 
 ### Question 7
 
+7.a. In a single pipeline, calculate the total population for each state and save the resulting data frame as state_population and display it in descending order of total population.
+
+```{r}
+state_population <- midwest |>
+  group_by(state) |>
+  summarize(total_population = sum(poptotal)) |>
+  arrange(desc(total_population))
+
+state_population
+```
+
+7.b. Then, in a separate pipeline, calculate the proportion of the total population in each state and, once again, display the results in descending order of proportion of population.
+
+```{r}
+state_population |>
+  mutate(population_proportion = total_population / sum(total_population)) |>
+  arrange(desc(population_proportion))
+```
+
+7.c. Which Midwestern state is most populous and what percent of the Midwest population lives there? Which is the least populous and what percent lives there?
+
+The most populous Midwestern state is Illinois, and approximately 27% of the Midwest population lives there. The least populous state is Wisconsin, and approximately 12% of the Midwest population lives there.
+
 \newpage
 
 ### Question 8
+
+
 
 \newpage
 
