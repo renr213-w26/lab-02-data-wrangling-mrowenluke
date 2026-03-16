@@ -381,11 +381,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>7.c. Which Midwestern state is most populous and what percent of the Midwest population lives there? Which is the least populous and what percent lives there?</p>
-<p>The most populous Midwestern state is Illinois, and approximately 27% of the Midwest population lives there. The least populous state is Wisconsin, and approximately 12% of the Midwest population lives there.</p>
+<p>The most populous Midwestern state is Illinois, and approximately 27.2% of the Midwest population lives there. The least populous state is Wisconsin, and approximately 11.6% of the Midwest population lives there.</p>
 <div style="page-break-after: always;"></div>
 </section>
 <section id="question-8" class="level3">
 <h3 class="anchored" data-anchor-id="question-8">Question 8</h3>
+</section>
+<section id="question-8-1" class="level3">
+<h3 class="anchored" data-anchor-id="question-8-1">Question 8</h3>
+<p>Calculate the average percentage below poverty for each state and save the resulting data frame as state_poverty with the columns state and mean_percbelowpoverty.</p>
+<p>Then, in a new pipeline, display the state_poverty data frame in ascending order of mean_percbelowpoverty. Which state has the lowest average percentage below poverty across its counties? Which state has the highest average percentage below poverty across its counties?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>state_poverty <span class="ot">&lt;-</span> midwest <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_percbelowpoverty =</span> <span class="fu">mean</span>(percbelowpoverty))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>state_poverty <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mean_percbelowpoverty)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  state mean_percbelowpoverty
+  &lt;chr&gt;                 &lt;dbl&gt;
+1 IN                     10.3
+2 WI                     11.9
+3 OH                     13.0
+4 IL                     13.1
+5 MI                     14.2</code></pre>
+</div>
+</div>
+<p>Indiana has the lowest average percentage below poverty across its counties, at approximately 10.3%. Michigan has the highest average percentage below poverty, with an average of approximately 14.2% across its counties.</p>
 <div style="page-break-after: always;"></div>
 </section>
 </section>
