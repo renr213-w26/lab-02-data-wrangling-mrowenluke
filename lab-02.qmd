@@ -1,8 +1,8 @@
 ---
 title: "Lab 2 - Data wrangling"
-author: "John Q. Student"
-date: "June 24, 1497"
-format: 
+author: "Luke Owen"
+date: "March 16, 2026"
+format:  
   html: default # for speed
   pdf: default # for final output
 
@@ -23,14 +23,31 @@ library(tidyverse)
 
 ### Question 1
 
-
+```{r}
+midwest |>
+  count(state, name = "n_counties") |>
+  arrange(desc(n_counties))
+```
+Illinois has the highest number of counties, with 102. Wisconsin has the lowest number of counties, with 72.
 \newpage
 
 ### Question 2
 
+```{r}
+midwest |>
+  count(county, name = "n") |>
+  filter(n == 5)
+```
+
+There are three counties that share names across all states. Crawford, Jackson, and Monroe.
 \newpage
 
 ### Question 3
+
+
+\newpage
+
+### Question 4
 \newpage
 
 ### Question 5
