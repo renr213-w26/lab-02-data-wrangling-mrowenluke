@@ -3,8 +3,8 @@ title: "Lab 2 - Data wrangling"
 author: "Luke Owen"
 date: "March 16, 2026"
 format:  
-  html: default # for speed
   pdf: default # for final output
+  html: default # for speed
 
 ---
 
